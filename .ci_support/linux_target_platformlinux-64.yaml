@@ -1,5 +1,7 @@
 c_compiler:
 - toolchain_c
+cran_mirror:
+- https://cran.r-project.org
 fortran_compiler:
 - toolchain_fort
 pin_run_as_build:
@@ -7,3 +9,5 @@ pin_run_as_build:
     max_pin: x.x.x
 r_base:
 - 3.4.1
+target_platform:
+- linux-64

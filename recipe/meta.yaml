@@ -1,5 +1,4 @@
-{% set version = '2.0-5' %}
-
+{% set version = '2.0-16' %}
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
 
@@ -10,13 +9,13 @@ package:
 source:
   fn: glmnet_{{ version }}.tar.gz
   url:
-    - https://cran.r-project.org/src/contrib/glmnet_{{ version }}.tar.gz
-    - https://cran.r-project.org/src/contrib/Archive/glmnet/glmnet_{{ version }}.tar.gz
-  sha256: 2ca95352c8fbd93aa7800f3d972ee6c1a5fcfeabc6be8c10deee0cb457fd77b1
+    - {{ cran_mirror }}/src/contrib/glmnet_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/glmnet/glmnet_{{ version }}.tar.gz
+  sha256: a54ccd802fce6625f3b69d747b28efe62ed8cc23397a5f8df4777d177e2839af
 
 build:
   merge_build_host: True  # [win]
-  number: 1
+  number: 0
   skip: true  # [win32]
   rpaths:
     - lib/R/lib/
@@ -24,38 +23,45 @@ build:
 
 requirements:
   build:
-    - posix                # [win]
-    - {{ compiler('fortran') }}        # [unix]
-    - {{ compiler('m2w64_fortran') }}  # [win]
-    - {{ compiler('c') }}        # [unix]
-    - {{ compiler('m2w64_c') }}  # [win]
+    - {{ compiler('c') }}        # [not win]
+    - {{ compiler('fortran') }}  # [not win]
+    - {{native}}toolchain        # [win]
+    - {{posix}}filesystem        # [win]
+    - {{posix}}make
+    - {{posix}}sed               # [win]
+    - {{posix}}coreutils         # [win]
+    - {{posix}}zip               # [win]
   host:
     - r-base
     - r-matrix >=1.0_6
     - r-foreach
-
   run:
     - r-base
+    - {{native}}gcc-libs         # [win]
     - r-matrix >=1.0_6
     - r-foreach
 
 test:
   commands:
-    - $R -e "library('glmnet')"  # [not win]
+    - $R -e "library('glmnet')"           # [not win]
     - "\"%R%\" -e \"library('glmnet')\""  # [win]
 
 about:
   home: http://www.jstatsoft.org/v33/i01/.
   license: GPL-2
-  summary: 'Extremely efficient procedures for fitting the entire lasso or elastic-net regularization
+  summary: Extremely efficient procedures for fitting the entire lasso or elastic-net regularization
     path for linear regression, logistic and multinomial regression models, Poisson
     regression and the Cox model. Two recent additions are the multiple-response Gaussian,
-    and the grouped multinomial. The algorithm uses cyclical coordinate descent in a
-    path-wise fashion, as described in the paper linked to via the URL below. '
-
+    and the grouped multinomial regression. The algorithm uses cyclical coordinate descent
+    in a path-wise fashion, as described in the paper linked to via the URL below.
   license_family: GPL2
+  license_file: '{{ environ["PREFIX"] }}/lib/R/share/licenses/GPL-2'  # [unix]
+  license_file: '{{ environ["PREFIX"] }}\R\share\licenses\GPL-2'  # [win]
 
 extra:
   recipe-maintainers:
     - johanneskoester
     - bgruening
+    - daler
+    - jdblischak
+    - cbrueffer

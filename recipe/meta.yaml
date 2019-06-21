@@ -1,4 +1,4 @@
-{% set version = '2.0-16' %}
+{% set version = '2.0-18' %}
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
 
@@ -7,25 +7,24 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: glmnet_{{ version }}.tar.gz
   url:
     - {{ cran_mirror }}/src/contrib/glmnet_{{ version }}.tar.gz
     - {{ cran_mirror }}/src/contrib/Archive/glmnet/glmnet_{{ version }}.tar.gz
-  sha256: a54ccd802fce6625f3b69d747b28efe62ed8cc23397a5f8df4777d177e2839af
+  sha256: e8dce9d7b8105f9cc18ba981d420de64a53b09abee219660d3612915d554256b
 
 build:
   merge_build_host: True  # [win]
-  number: 1001
-  skip: true  # [win32]
+  number: 0
   rpaths:
     - lib/R/lib/
     - lib/
 
 requirements:
   build:
-    - {{ compiler('c') }}        # [not win]
-    - {{ compiler('fortran') }}  # [not win]
-    - {{native}}toolchain        # [win]
+    - {{ compiler('c') }}              # [not win]
+    - {{ compiler('m2w64_c') }}        # [win]
+    - {{ compiler('fortran') }}        # [not win]
+    - {{ compiler('m2w64_fortran') }}  # [win]
     - {{posix}}filesystem        # [win]
     - {{posix}}make
     - {{posix}}sed               # [win]
@@ -59,9 +58,23 @@ about:
 
 extra:
   recipe-maintainers:
-    - dpryan79
-    - johanneskoester
-    - bgruening
-    - daler
-    - jdblischak
-    - cbrueffer
+    - conda-forge/r
+
+# Package: glmnet
+# Type: Package
+# Title: Lasso and Elastic-Net Regularized Generalized Linear Models
+# Version: 2.0-18
+# Date: 2019-05-18
+# Author: Jerome Friedman [aut, cre], Trevor Hastie [aut, cre], Rob Tibshirani [aut, cre], Noah Simon [aut, ctb], Balasubramanian Narasimhan [aut, ctb], Junyang Qian [ctb]
+# Maintainer: Trevor Hastie <hastie@stanford.edu>
+# Depends: Matrix (>= 1.0-6), utils, foreach
+# Imports: methods
+# Suggests: survival, knitr, lars
+# Description: Extremely efficient procedures for fitting the entire lasso or elastic-net regularization path for linear regression, logistic and multinomial regression models, Poisson regression and the Cox model. Two recent additions are the multiple-response Gaussian, and the grouped multinomial regression. The algorithm uses cyclical coordinate descent in a path-wise fashion, as described in the paper linked to via the URL below.
+# License: GPL-2
+# VignetteBuilder: knitr
+# URL: http://www.jstatsoft.org/v33/i01/.
+# NeedsCompilation: yes
+# Packaged: 2019-05-19 00:31:37 UTC; hastie
+# Repository: CRAN
+# Date/Publication: 2019-05-20 05:10:12 UTC

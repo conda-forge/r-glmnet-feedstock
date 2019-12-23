@@ -1,4 +1,4 @@
-{% set version = "3.0-2" %}
+{% set version = '3.0-2' %}
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
 
@@ -34,11 +34,13 @@ requirements:
     - r-base
     - r-matrix >=1.0_6
     - r-foreach
+    - r-shape
   run:
     - r-base
     - {{native}}gcc-libs         # [win]
     - r-matrix >=1.0_6
     - r-foreach
+    - r-shape
 
 test:
   commands:
@@ -46,15 +48,16 @@ test:
     - "\"%R%\" -e \"library('glmnet')\""  # [win]
 
 about:
-  home: http://www.jstatsoft.org/v33/i01/.
+  home: https://glmnet.stanford.edu, https://dx.doi.org/10.18637/jss.v033.i01, https://dx.doi.org/10.18637/jss.v039.i05
   license: GPL-2
   summary: Extremely efficient procedures for fitting the entire lasso or elastic-net regularization
     path for linear regression, logistic and multinomial regression models, Poisson
     regression and the Cox model. Two recent additions are the multiple-response Gaussian,
     and the grouped multinomial regression. The algorithm uses cyclical coordinate descent
-    in a path-wise fashion, as described in the paper linked to via the URL below.
+    in a path-wise fashion, as described in the papers listed in the URL below.
   license_family: GPL2
-  license_file: '{{ environ["PREFIX"] }}/lib/R/share/licenses/GPL-2'
+  license_file:
+    - '{{ environ["PREFIX"] }}/lib/R/share/licenses/GPL-2'
 
 extra:
   recipe-maintainers:
@@ -63,18 +66,21 @@ extra:
 # Package: glmnet
 # Type: Package
 # Title: Lasso and Elastic-Net Regularized Generalized Linear Models
-# Version: 2.0-18
-# Date: 2019-05-18
-# Author: Jerome Friedman [aut, cre], Trevor Hastie [aut, cre], Rob Tibshirani [aut, cre], Noah Simon [aut, ctb], Balasubramanian Narasimhan [aut, ctb], Junyang Qian [ctb]
-# Maintainer: Trevor Hastie <hastie@stanford.edu>
-# Depends: Matrix (>= 1.0-6), utils, foreach
-# Imports: methods
+# Version: 3.0-2
+# Date: 2019-12-09
+# Authors@R: c(person("Jerome", "Friedman", role=c("aut")), person("Trevor", "Hastie", role=c("aut", "cre"), email = "hastie@stanford.edu"), person("Rob", "Tibshirani", role=c("aut")), person("Balasubramanian", "Narasimhan", role=c("aut")), person("Noah", "Simon", role=c("aut")), person("Junyang", "Qian", role=c("ctb")))
+# Depends: R (>= 3.6.0), Matrix (>= 1.0-6)
+# Imports: methods, utils, foreach, shape
 # Suggests: survival, knitr, lars
-# Description: Extremely efficient procedures for fitting the entire lasso or elastic-net regularization path for linear regression, logistic and multinomial regression models, Poisson regression and the Cox model. Two recent additions are the multiple-response Gaussian, and the grouped multinomial regression. The algorithm uses cyclical coordinate descent in a path-wise fashion, as described in the paper linked to via the URL below.
+# Description: Extremely efficient procedures for fitting the entire lasso or elastic-net regularization path for linear regression, logistic and multinomial regression models, Poisson regression and the Cox model. Two recent additions are the multiple-response Gaussian, and the grouped multinomial regression. The algorithm uses cyclical coordinate descent in a path-wise fashion, as described in the papers listed in the URL below.
 # License: GPL-2
 # VignetteBuilder: knitr
-# URL: http://www.jstatsoft.org/v33/i01/.
+# Encoding: UTF-8
+# URL: https://glmnet.stanford.edu, https://dx.doi.org/10.18637/jss.v033.i01, https://dx.doi.org/10.18637/jss.v039.i05
+# RoxygenNote: 6.1.1
 # NeedsCompilation: yes
-# Packaged: 2019-05-19 00:31:37 UTC; hastie
+# Packaged: 2019-12-11 01:55:13 UTC; hastie
+# Author: Jerome Friedman [aut], Trevor Hastie [aut, cre], Rob Tibshirani [aut], Balasubramanian Narasimhan [aut], Noah Simon [aut], Junyang Qian [ctb]
+# Maintainer: Trevor Hastie <hastie@stanford.edu>
 # Repository: CRAN
-# Date/Publication: 2019-05-20 05:10:12 UTC
+# Date/Publication: 2019-12-11 17:00:02 UTC

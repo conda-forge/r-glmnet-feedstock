@@ -3,7 +3,7 @@ About r-glmnet
 
 Home: https://glmnet.stanford.edu, https://dx.doi.org/10.18637/jss.v033.i01, https://dx.doi.org/10.18637/jss.v039.i05
 
-Package license: GPL-2
+Package license: GPL-2.0-only
 
 Feedstock license: BSD 3-Clause
 

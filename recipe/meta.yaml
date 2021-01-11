@@ -1,4 +1,4 @@
-{% set version = "4.0-2" %}
+{% set version = "4.1" %}
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
 
@@ -10,11 +10,11 @@ source:
   url:
     - {{ cran_mirror }}/src/contrib/glmnet_{{ version }}.tar.gz
     - {{ cran_mirror }}/src/contrib/Archive/glmnet/glmnet_{{ version }}.tar.gz
-  sha256: acf7db28f7bf30848daa77472085235851c4bff3e996e017e09649de76e7ba61
+  sha256: 8f0af50919f488789ecf261f6e0907f367d89fca812baa2f814054fb2d0e40cb
 
 build:
   merge_build_host: true  # [win]
-  number: 1
+  number: 0
   rpaths:
     - lib/R/lib/
     - lib/

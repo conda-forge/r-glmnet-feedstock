@@ -23,6 +23,8 @@ requirements:
   build:
     - {{ compiler('c') }}              # [not win]
     - {{ compiler('m2w64_c') }}        # [win]
+    - {{ compiler('cxx') }}            # [not win]
+    - {{ compiler('m2w64_cxx') }}      # [win]
     - {{ compiler('fortran') }}        # [not win]
     - {{ compiler('m2w64_fortran') }}  # [win]
     - {{ posix }}filesystem        # [win]
@@ -30,9 +32,12 @@ requirements:
     - {{ posix }}sed               # [win]
     - {{ posix }}coreutils         # [win]
     - {{ posix }}zip               # [win]
+    - cross-r-base {{ r_base }}    # [build_platform != target_platform]
   host:
     - r-base
     - r-matrix >=1.0_6
+    - r-rcpp
+    - r-rcppeigen
     - r-foreach
     - r-shape
     - r-survival
@@ -40,6 +45,8 @@ requirements:
     - r-base
     - {{ native }}gcc-libs         # [win]
     - r-matrix >=1.0_6
+    - r-rcpp
+    - r-rcppeigen
     - r-foreach
     - r-shape
     - r-survival

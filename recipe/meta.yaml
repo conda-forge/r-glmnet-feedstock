@@ -22,10 +22,12 @@ build:
 requirements:
   build:
     - cross-r-base {{ r_base }}  # [build_platform != target_platform]
-    - r-foreach                  # [build_platform != target_platform]
     - r-matrix                   # [build_platform != target_platform]
-    - r-survival                 # [build_platform != target_platform]
+    - r-rcpp                     # [build_platform != target_platform]
+    - r-rcppeigen                # [build_platform != target_platform]
+    - r-foreach                  # [build_platform != target_platform]
     - r-shape                    # [build_platform != target_platform]
+    - r-survival                 # [build_platform != target_platform]
     - {{ compiler('c') }}              # [not win]
     - {{ compiler('m2w64_c') }}        # [win]
     - {{ compiler('fortran') }}        # [not win]
@@ -38,6 +40,8 @@ requirements:
   host:
     - r-base
     - r-matrix >=1.0_6
+    - r-rcpp
+    - r-rcppeigen
     - r-foreach
     - r-shape
     - r-survival
@@ -45,6 +49,8 @@ requirements:
     - r-base
     - {{ native }}gcc-libs         # [win]
     - r-matrix >=1.0_6
+    - r-rcpp
+    - r-rcppeigen
     - r-foreach
     - r-shape
     - r-survival

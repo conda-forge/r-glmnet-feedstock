@@ -26,6 +26,8 @@ requirements:
     - r-matrix                   # [build_platform != target_platform]
     - r-survival                 # [build_platform != target_platform]
     - r-shape                    # [build_platform != target_platform]
+    - r-rcpp                     # [build_platform != target_platform]
+    - r-rcppeigen                # [build_platform != target_platform]
     - {{ compiler('c') }}              # [not win]
     - {{ compiler('m2w64_c') }}        # [win]
     - {{ compiler('fortran') }}        # [not win]

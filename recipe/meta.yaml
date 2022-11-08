@@ -41,6 +41,8 @@ requirements:
     - r-foreach
     - r-shape
     - r-survival
+    - r-rcpp
+    - r-rcppeigen
   run:
     - r-base
     - {{ native }}gcc-libs         # [win]
@@ -48,6 +50,8 @@ requirements:
     - r-foreach
     - r-shape
     - r-survival
+    - r-rcpp
+    - r-rcppeigen
 
 test:
   commands:

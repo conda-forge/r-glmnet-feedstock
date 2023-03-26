@@ -1,4 +1,4 @@
-{% set version = "4.1-2" %}
+{% set version = "4.1-7" %}
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
 
@@ -10,42 +10,51 @@ source:
   url:
     - {{ cran_mirror }}/src/contrib/glmnet_{{ version }}.tar.gz
     - {{ cran_mirror }}/src/contrib/Archive/glmnet/glmnet_{{ version }}.tar.gz
-  sha256: 06ab2b58c0b431736605aee2d42e517e0e2640d16b5a6c7867a25f05dd44cdcd
+  sha256: b3a0b606d99df0256eb68e6ebd271e071b246900a4379641af2e7d548c70eaa8
 
 build:
   merge_build_host: true  # [win]
-  number: 1
+  skip: true              # [win]
+  number: 0
   rpaths:
     - lib/R/lib/
     - lib/
 
 requirements:
   build:
-    - cross-r-base {{ r_base }}  # [build_platform != target_platform]
-    - r-foreach                  # [build_platform != target_platform]
-    - r-matrix                   # [build_platform != target_platform]
-    - r-survival                 # [build_platform != target_platform]
-    - r-shape                    # [build_platform != target_platform]
+    - cross-r-base {{ r_base }}        # [build_platform != target_platform]
+    - r-foreach                        # [build_platform != target_platform]
+    - r-matrix                         # [build_platform != target_platform]
+    - r-rcpp                           # [build_platform != target_platform]
+    - r-rcppeigen                      # [build_platform != target_platform]
+    - r-survival                       # [build_platform != target_platform]
+    - r-shape                          # [build_platform != target_platform]
     - {{ compiler('c') }}              # [not win]
     - {{ compiler('m2w64_c') }}        # [win]
+    - {{ compiler('cxx') }}            # [not win]
+    - {{ compiler('m2w64_cxx') }}      # [win]
     - {{ compiler('fortran') }}        # [not win]
     - {{ compiler('m2w64_fortran') }}  # [win]
-    - {{ posix }}filesystem        # [win]
+    - {{ posix }}filesystem            # [win]
     - {{ posix }}make
-    - {{ posix }}sed               # [win]
-    - {{ posix }}coreutils         # [win]
-    - {{ posix }}zip               # [win]
+    - {{ posix }}sed                   # [win]
+    - {{ posix }}coreutils             # [win]
+    - {{ posix }}zip                   # [win]
   host:
     - r-base
-    - r-matrix >=1.0_6
     - r-foreach
+    - r-matrix >=1.0_6
+    - r-rcpp
+    - r-rcppeigen
     - r-shape
     - r-survival
   run:
     - r-base
     - {{ native }}gcc-libs         # [win]
-    - r-matrix >=1.0_6
     - r-foreach
+    - r-matrix >=1.0_6
+    - r-rcpp
+    - r-rcppeigen
     - r-shape
     - r-survival
 
@@ -55,10 +64,18 @@ test:
     - "\"%R%\" -e \"library('glmnet')\""  # [win]
 
 about:
-  home: https://glmnet.stanford.edu, https://dx.doi.org/10.18637/jss.v033.i01, https://dx.doi.org/10.18637/jss.v039.i05
+  home: https://glmnet.stanford.edu
   license: GPL-2.0-only
-  summary: Extremely efficient procedures for fitting the entire lasso or elastic-net regularization path for linear regression, logistic and multinomial regression models, Poisson regression and the Cox model. Two recent additions are the multiple-response Gaussian, and the grouped multinomial regression. The algorithm
-    uses cyclical coordinate descent in a path-wise fashion, as described in the papers listed in the URL below.
+  summary: Extremely efficient procedures for fitting the entire lasso or elastic-net regularization
+    path for linear regression, logistic and multinomial regression models, Poisson
+    regression, Cox model,  multiple-response Gaussian, and the grouped multinomial
+    regression; see <doi:10.18637/jss.v033.i01> and <doi:10.18637/jss.v039.i05>. There
+    are two new and important additions. The family argument can be a GLM family object,
+    which opens the door to any programmed family (<doi:10.18637/jss.v106.i01>). This
+    comes with a modest computational cost, so when the built-in families suffice, they
+    should be used instead.  The other novelty is the relax option, which refits each
+    of the active sets in the path unpenalized. The algorithm uses cyclical coordinate
+    descent in a path-wise fashion, as described in the papers cited.
   license_family: GPL2
   license_file:
     - {{ environ["PREFIX"] }}/lib/R/share/licenses/GPL-2
@@ -66,26 +83,3 @@ about:
 extra:
   recipe-maintainers:
     - conda-forge/r
-
-
-# Package: glmnet
-# Type: Package
-# Title: Lasso and Elastic-Net Regularized Generalized Linear Models
-# Version: 3.0-2
-# Date: 2019-12-09
-# Authors@R: c(person("Jerome", "Friedman", role=c("aut")), person("Trevor", "Hastie", role=c("aut", "cre"), email = "hastie@stanford.edu"), person("Rob", "Tibshirani", role=c("aut")), person("Balasubramanian", "Narasimhan", role=c("aut")), person("Noah", "Simon", role=c("aut")), person("Junyang", "Qian", role=c("ctb")))
-# Depends: R (>= 3.6.0), Matrix (>= 1.0-6)
-# Imports: methods, utils, foreach, shape
-# Suggests: survival, knitr, lars
-# Description: Extremely efficient procedures for fitting the entire lasso or elastic-net regularization path for linear regression, logistic and multinomial regression models, Poisson regression and the Cox model. Two recent additions are the multiple-response Gaussian, and the grouped multinomial regression. The algorithm uses cyclical coordinate descent in a path-wise fashion, as described in the papers listed in the URL below.
-# License: GPL-2
-# VignetteBuilder: knitr
-# Encoding: UTF-8
-# URL: https://glmnet.stanford.edu, https://dx.doi.org/10.18637/jss.v033.i01, https://dx.doi.org/10.18637/jss.v039.i05
-# RoxygenNote: 6.1.1
-# NeedsCompilation: yes
-# Packaged: 2019-12-11 01:55:13 UTC; hastie
-# Author: Jerome Friedman [aut], Trevor Hastie [aut, cre], Rob Tibshirani [aut], Balasubramanian Narasimhan [aut], Noah Simon [aut], Junyang Qian [ctb]
-# Maintainer: Trevor Hastie <hastie@stanford.edu>
-# Repository: CRAN
-# Date/Publication: 2019-12-11 17:00:02 UTC

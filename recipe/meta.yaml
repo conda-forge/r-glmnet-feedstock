@@ -1,6 +1,5 @@
 {% set version = "4.1-8" %}
 {% set posix = 'm2-' if win else '' %}
-{% set native = 'm2w64-' if win else '' %}
 
 package:
   name: r-glmnet
@@ -13,9 +12,9 @@ source:
   sha256: 1ddbe5ce07076d1bdf58b0202ebd0ceac8eeb4796c5175681adb9e58c30ddcfe
 
 build:
-  merge_build_host: true  # [win]
-  skip: true  # [win]
-  number: 0
+  # Checking windows to see if it passes. Uncomment the line if it fails.
+  # skip: true  # [win]
+  number: 1
   rpaths:
     - lib/R/lib/
     - lib/
@@ -30,7 +29,9 @@ requirements:
     - r-survival                       # [build_platform != target_platform]
     - r-shape                          # [build_platform != target_platform]
     - {{ compiler('c') }}              # [not win]
+    - {{ stdlib("c") }}                # [not win]
     - {{ compiler('m2w64_c') }}        # [win]
+    - {{ stdlib("m2w64_c") }}          # [win]
     - {{ compiler('cxx') }}            # [not win]
     - {{ compiler('m2w64_cxx') }}      # [win]
     - {{ compiler('fortran') }}        # [not win]
@@ -50,7 +51,6 @@ requirements:
     - r-survival
   run:
     - r-base
-    - {{ native }}gcc-libs         # [win]
     - r-foreach
     - r-matrix >=1.0_6
     - r-rcpp

@@ -3,7 +3,7 @@
 
 package:
   name: r-glmnet
-  version: {{ version|replace("-", "_") }}
+  version: "{{ version|replace("-", "_") }}"
 
 source:
   url:
@@ -12,12 +12,14 @@ source:
   sha256: f0b23da6383a45d502cd138b64da6300422d9b8d7b2c4f14627d412cde79d2a0
 
 build:
-  # Checking windows to see if it passes. Uncomment the line if it fails.
-  # skip: true  # [win]
   number: 0
   rpaths:
     - lib/R/lib/
     - lib/
+  missing_dso_whitelist:
+    - '*/R.dll'        # [win]
+    - '*/Rblas.dll'    # [win]
+    - '*/Rlapack.dll'  # [win]
 
 requirements:
   build:
@@ -43,18 +45,18 @@ requirements:
     - {{ posix }}zip                   # [win]
   host:
     - r-base
-    - r-foreach
     - r-matrix >=1.0_6
     - r-rcpp
     - r-rcppeigen
+    - r-foreach
     - r-shape
     - r-survival
   run:
     - r-base
-    - r-foreach
     - r-matrix >=1.0_6
     - r-rcpp
     - r-rcppeigen
+    - r-foreach
     - r-shape
     - r-survival
 

@@ -1,15 +1,15 @@
-{% set version = "5.0" %}
+{% set version = "5.2" %}
 {% set posix = 'm2-' if win else '' %}
 
 package:
   name: r-glmnet
-  version: "{{ version|replace("-", "_") }}"
+  version: {{ version|replace("-", "_") }}
 
 source:
   url:
     - {{ cran_mirror }}/src/contrib/glmnet_{{ version }}.tar.gz
     - {{ cran_mirror }}/src/contrib/Archive/glmnet/glmnet_{{ version }}.tar.gz
-  sha256: f0b23da6383a45d502cd138b64da6300422d9b8d7b2c4f14627d412cde79d2a0
+  sha256: 5a3e4ce2ca463484e78c484a2cc4a7db8d079bc980f91aaae647694d3adb4fdf
 
 build:
   number: 0
